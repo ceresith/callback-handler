@@ -15,7 +15,7 @@ var CallbackHandler = require('callback-handler');
 
 ## Version
 
-The current version is 0.1.0
+The current version is 0.1.2
 
 ## Features
 
