@@ -30,7 +30,7 @@ CallbackHandler.prototype = {
 		var self = this;
 		return function() {
 			if (!self.isFinalized()) {
-				if (arguments[0] || !predicate.apply(null, arguments)) {
+				if (arguments[0] || !predicate.apply(null, [].slice.call(arguments, 1))) {
 					self.finalize.apply(self, arguments);
 				}
 				else {

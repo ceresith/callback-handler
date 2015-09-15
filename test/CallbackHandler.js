@@ -264,7 +264,7 @@ describe('CallbackHandler', function() {
 	describe('#nextIf(predicate, callback)', function() {
 		it('should return a function that calls the given callback with all arguments except the first one if the first argument is falsy and the other arguments pass the given predicate', function(done) {
 			function isTrue(one, two, three) {
-				return true;
+				return one === 1 && two === 2 && three === 3;
 			}
 			var handler = new CallbackHandler(function() {});
 			successfulAsyncAction(1, 2, 3, handler.nextIf(isTrue, function(one, two, three) {
@@ -277,7 +277,7 @@ describe('CallbackHandler', function() {
 
 		it('should return a function that calls the handler\'s callback with the first argument and null if the first argument is truthy', function(done) {
 			function isTrue(one, two, three) {
-				return true;
+				return one === 1 && two === 2 && three === 3;
 			}
 			var handler = new CallbackHandler(function(err, data) {
 				assert.lengthOf(arguments, 2);
@@ -293,7 +293,7 @@ describe('CallbackHandler', function() {
 
 		it('should return a function that calls the handler\'s callback with all arguments if the first argument is falsy and the other arguments do not pass the given predicate', function(done) {
 			function isFalse(one, two, three) {
-				return false;
+				return !(one === 1 && two === 2 && three === 3);
 			}
 			var handler = new CallbackHandler(function(err, one, two, three) {
 				assert.lengthOf(arguments, 4);
@@ -310,7 +310,7 @@ describe('CallbackHandler', function() {
 
 		it('should return a no-op function if the handler\'s callback has already been called', function(done) {
 			function isTrue(one, two, three) {
-				return true;
+				return one === 1 && two === 2 && three === 3;
 			}
 			var handler = new CallbackHandler(function(err, data) {
 				assert.lengthOf(arguments, 2);
