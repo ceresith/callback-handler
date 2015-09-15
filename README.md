@@ -7,6 +7,12 @@ This is a utility package to handle errors and unwanted results in callbacks aut
 $ npm install callback-handler
 ```
 
+## Usage
+
+```javascript
+var CallbackHandler = require('callback-handler');
+```
+
 ## Version
 
 The current version is 0.1.0
