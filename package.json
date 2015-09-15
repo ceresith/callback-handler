@@ -1,0 +1,37 @@
+{
+	"name": "callback-handler",
+	"version": "0.1.0",
+	"description": "This is a utility package to handle errors and unwanted results automatically. It is used to improve readability of code and simplify working with callbacks.",
+	"main": "main.js",
+	"scripts": {
+		"test": "mocha --recursive \"test\""
+	},
+	"keywords": [
+		"Node",
+		"CallbackHandler",
+		"callbacks",
+		"callback",
+		"handler",
+		"error",
+		"errors",
+		"err",
+		"asynchronous",
+		"async"
+	],
+	"author": {
+		"name": "Rafael Schenk",
+		"email": "ceresith@web.de"
+	},
+	"license": "MIT",
+	"devDependencies": {
+		"mocha": "^2.1.0",
+		"chai": "^2.1.1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/ceresith/callback-handler.git"
+	},
+	"bugs": {
+		"url": "https://github.com/ceresith/callback-handler/issues"
+	}
+}
