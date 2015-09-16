@@ -49,7 +49,7 @@ The current version is 0.1.2
 
 // Use `#last()` to finish a callback chain and return the result:
 
-	chatRoomModel.create(userId, roomName, handler.last);
+	chatRoomModel.create(userId, roomName, handler.last());
 
 // See it altogether:
 
