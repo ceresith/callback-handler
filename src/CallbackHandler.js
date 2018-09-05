@@ -40,6 +40,34 @@ CallbackHandler.prototype = {
 			}
 		};
 	},
+	nextIfTruthy: function(callback) {
+		var self = this;
+		return function() {
+			if (!self.isFinalized()) {
+				if (arguments[0] || !arguments[1]) {
+					self.finalize.apply(self, arguments);
+				}
+				else {
+					[].shift.call(arguments);
+					callback.apply(null, arguments);
+				}
+			}
+		};
+	},
+	nextIfFalsy: function(callback) {
+		var self = this;
+		return function() {
+			if (!self.isFinalized()) {
+				if (arguments[0] || arguments[1]) {
+					self.finalize.apply(self, arguments);
+				}
+				else {
+					[].shift.call(arguments);
+					callback.apply(null, arguments);
+				}
+			}
+		};
+	},
 	last: function() {
 		var self = this;
 		return function() {

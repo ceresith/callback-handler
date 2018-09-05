@@ -331,6 +331,122 @@ describe('CallbackHandler', function() {
 		});
 	});
 
+	describe('#nextIfTruthy(callback)', function() {
+		it('should return a function that calls the given callback with all arguments except the first one if the first argument is falsy and the second argument truthy', function(done) {
+			var handler = new CallbackHandler(function() {});
+			successfulAsyncAction(1, 2, 3, handler.nextIfTruthy(function(one, two, three) {
+				assert.strictEqual(one, 1);
+				assert.strictEqual(two, 2);
+				assert.strictEqual(three, 3);
+				done();
+			}));
+		});
+
+		it('should return a function that calls the handler\'s callback with the first argument and null if the first argument is truthy', function(done) {
+			var handler = new CallbackHandler(function(err, data) {
+				assert.lengthOf(arguments, 2);
+				assert(err);
+				assert.strictEqual(data, null);
+				done();
+			});
+			failingAsyncAction(1, 2, 3, handler.nextIfTruthy(function(one, two, three) {
+				assert.fail();
+				done();
+			}));
+		});
+
+		it('should return a function that calls the handler\'s callback with all arguments if the first argument is falsy and the second argument is falsy', function(done) {
+			var handler = new CallbackHandler(function(err, one, two, three) {
+				assert.lengthOf(arguments, 4);
+				assert.strictEqual(err, null);
+				assert.strictEqual(one, 0);
+				assert.strictEqual(two, 2);
+				assert.strictEqual(three, 3);
+				done();
+			});
+			successfulAsyncAction(0, 2, 3, handler.nextIfTruthy(function(one, two, three) {
+				assert.fail();
+			}));
+		});
+
+		it('should return a no-op function if the handler\'s callback has already been called', function(done) {
+			var handler = new CallbackHandler(function(err, data) {
+				assert.lengthOf(arguments, 2);
+				assert(err);
+				assert.strictEqual(data, null);
+				handler.nextIfTruthy(function() {
+					assert.fail();
+					done();
+				})
+				setImmediate(function() {
+					done();
+				});
+			});
+			failingAsyncAction(1, 2, 3, handler.nextIfTruthy(function(one, two, three) {
+				assert.fail();
+				done();
+			}));
+		});
+	});
+
+	describe('#nextIfFalsy(callback)', function() {
+		it('should return a function that calls the given callback with all arguments except the first one if the first argument is falsy and the second argument falsy', function(done) {
+			var handler = new CallbackHandler(function() {});
+			successfulAsyncAction(0, 2, 3, handler.nextIfFalsy(function(one, two, three) {
+				assert.strictEqual(one, 0);
+				assert.strictEqual(two, 2);
+				assert.strictEqual(three, 3);
+				done();
+			}));
+		});
+
+		it('should return a function that calls the handler\'s callback with the first argument and null if the first argument is truthy', function(done) {
+			var handler = new CallbackHandler(function(err, data) {
+				assert.lengthOf(arguments, 2);
+				assert(err);
+				assert.strictEqual(data, null);
+				done();
+			});
+			failingAsyncAction(1, 2, 3, handler.nextIfFalsy(function(one, two, three) {
+				assert.fail();
+				done();
+			}));
+		});
+
+		it('should return a function that calls the handler\'s callback with all arguments if the first argument is falsy and the second argument is truthy', function(done) {
+			var handler = new CallbackHandler(function(err, one, two, three) {
+				assert.lengthOf(arguments, 4);
+				assert.strictEqual(err, null);
+				assert.strictEqual(one, 1);
+				assert.strictEqual(two, 2);
+				assert.strictEqual(three, 3);
+				done();
+			});
+			successfulAsyncAction(1, 2, 3, handler.nextIfFalsy(function(one, two, three) {
+				assert.fail();
+			}));
+		});
+
+		it('should return a no-op function if the handler\'s callback has already been called', function(done) {
+			var handler = new CallbackHandler(function(err, data) {
+				assert.lengthOf(arguments, 2);
+				assert(err);
+				assert.strictEqual(data, null);
+				handler.nextIfFalsy(function() {
+					assert.fail();
+					done();
+				})
+				setImmediate(function() {
+					done();
+				});
+			});
+			failingAsyncAction(1, 2, 3, handler.nextIfFalsy(function(one, two, three) {
+				assert.fail();
+				done();
+			}));
+		});
+	});
+
 	describe('#flatten(callback)', function() {
 		it('should return a function that calls the given callback with the second argument one-level flattened except the first one if the first argument is falsy', function(done) {
 			var handler = new CallbackHandler(function() {});
